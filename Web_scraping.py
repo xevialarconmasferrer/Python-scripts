@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup
 
 # Importing Excel file with list of project codes.
 
-data = pd.read_excel(r'C:\Users\U6069569\OneDrive - Clarivate Analytics\Desktop\NCT.xlsx')
+data = pd.read_excel(r'C:\Users\Desktop\NCT.xlsx')
 NCT = data['TrialRegistryID'].tolist()
 
 # Creating URL adress for each Project
@@ -21,7 +21,7 @@ NCT = data['TrialRegistryID'].tolist()
 NCT_web = []
 
 for i in NCT:
-    NCT_web.append([i,f"https://clinicaltrials.gov/ct2/show/{i}?id={i}&draw=2&rank=1"])
+    NCT_web.append([i,f"https://xxxxxxxx.xxx/ct2/show/{i}?id={i}&draw=2&rank=1"])
 df = pd.DataFrame(NCT_web, columns=['TrialRegistryID', "url"])
 
 
@@ -107,4 +107,4 @@ df2['All endpoints'] = All_End
 
 # Exporting dataframe to Excel file
 
-df2.to_excel("C:/Users/U6069569/OneDrive - Clarivate Analytics/Desktop/NCT2.xlsx")
+df2.to_excel("C:/Users/Desktop/NCT2.xlsx")
