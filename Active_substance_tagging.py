@@ -126,9 +126,6 @@ for colums,rows in Datos.iterrows():
         Type.append("Other") 
         Category.append("Other")
 
-
-#Datos["Type of active substance"] = Type
-
 Datos.drop(["concat"], axis = 1, inplace = True)
 
 Datos["Type of active substance"] = Type
