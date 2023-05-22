@@ -34,7 +34,7 @@ All_Endpoints=dict()
 Secondary_Endpoints=dict()
 Exp_cohort=dict()
 
-for i in df["url"][0:500]:
+for i in df["url"]:
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     driver.get(i)
     
@@ -92,7 +92,7 @@ for i in df["url"][0:500]:
     
 # Append results to the initial DataFrame
 
-df2 = df[0:500]
+df2 = df
 Indication_Names = list(Indication_names.values())
 Ind = list(Indication.values())
 Pr_End = list(Pr_Endpoints.values())
