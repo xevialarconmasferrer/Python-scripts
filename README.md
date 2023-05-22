@@ -1,5 +1,5 @@
 ## Python Scrips
 
-In this repository are included all my python scripts.
+In this repository I include all my python scripts.
 
 
