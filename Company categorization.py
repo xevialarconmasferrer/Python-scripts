@@ -6,7 +6,7 @@ import os
 import glob
 import re
 
-##                                                                                  Import  files from a folder:
+## Import  files from a folder:
 
 
 # Ask the user for the location path of the files.
@@ -101,7 +101,7 @@ def Read_multipleFiles ():
         print(files_csv)
         
     
-    ##                                                                                 Exporting dataframe in an excel file:
+    ## Exporting dataframe in an excel file:
 
 
     # Export the dataframe in an excel file at the same location path where we got the files.
@@ -334,7 +334,7 @@ def Cortellis_ATCtagging():
     Datos["Company Size"] = Size
     Datos.replace('EMPTY',"", inplace=True)
 
-    ##                                                                                 Exporting dataframe in an excel file:
+    ## Exporting dataframe in an excel file:
 
 
     # Export the dataframe in an excel file at the same location path where we got the files.
