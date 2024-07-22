@@ -88,8 +88,8 @@ def save_data(df, output_path):
     df.to_excel(output_path, index=False)
 
 if __name__ == "__main__":
-    input_path = r"C:\Users\U6069569\OneDrive - Clarivate Analytics\Desktop\2024 Summer\BMGF\Tagging\Test\Tagging.xlsx"
-    output_path = r"C:\Users\U6069569\OneDrive - Clarivate Analytics\Desktop\2024 Summer\BMGF\Tagging\Test\2024_BMGFTagging.xlsx"
+    input_path = r"****.xlsx"
+    output_path = r"***.xlsx"
     
     data = load_data(input_path)
     data = categorize_data(data)
