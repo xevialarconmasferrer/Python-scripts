@@ -11,6 +11,8 @@ def categorize_technologies(rows):
     concat_lower = concat.lower()
     
     if "small molecule therapeutic" in technologies.lower():
+        if "adjuvant" in other_actions.lower():
+            return "Small molecule", "Adjuvant", "Non"
         return "Small molecule", "Non", "Non"
     
     elif "vaccine" in technologies.lower() or "vaccine" in other_actions.lower():
