@@ -27,7 +27,7 @@ def getURL(url):
 
 def process_nct(n,cont=0):
 
-    records = {"NCT": n, "Start_date": None, "Sponsor": None, "Enrollment" : None,  "Phase" : None, "Indication" : None, "Study_type" : None, "Location" : None, "Status" : None}
+    records = {"NCT": n, "Start_date": None, "Sponsor": None, "Collaborators": None, "Enrollment" : None,  "Phase" : None, "Indication" : None, "Study_type" : None, "Location" : None, "Status" : None}
     
     idURL = f"https://clinicaltrials.gov/api/v2/studies/{n}?format=json"
     response, message = getURL(idURL)
@@ -58,6 +58,19 @@ def process_nct(n,cont=0):
         sp = sponsor.get("name")
         records["Sponsor"] = sp
 
+        #Collaborators
+
+        collab= data.get("protocolSection", {}) \
+                            .get("sponsorCollaboratorsModule", {}) \
+                            .get("collaborators", {})
+        cl = []
+
+        for c in collab:
+            if "name" in c:
+                cl.append(c["name"])
+
+        records["Collaborators"] = cl
+
         #Enrollment (Actual)
 
         Enrollment = data.get("protocolSection", {}) \
@@ -81,7 +94,7 @@ def process_nct(n,cont=0):
                             .get("designModule", {}) 
     
         ph = phase.get("phases")
-        records["Phase"] = ph
+        records["Phase"] = ph[0]
                
         #Indication
 
@@ -89,7 +102,7 @@ def process_nct(n,cont=0):
                             .get("conditionsModule", {}) 
         
         ind = Indication.get("conditions")
-        records["Indication"] =  ind
+        records["Indication"] =  ind[0]
 
         #Location
 
@@ -119,7 +132,7 @@ def process_nct(n,cont=0):
 
 # Importing Excel file with list of project codes.
 
-data = pd.read_excel(r'***')
+data = pd.read_excel(r'C:\Users\U6069569\OneDrive - Clarivate Analytics\Desktop\jnj_end.xlsx')
 AllRecords = data["NCT"].tolist()
 
 # Using ThreadPoolExecutor for parallel processing
@@ -141,6 +154,6 @@ with concurrent.futures.ThreadPoolExecutor(max_workers = 50) as executor:
 df2 = pd.DataFrame(results)
 
 # Exporting dataframe to Excel file
-df2.to_excel("***.xlsx")
+df2.to_excel("C:/Users/U6069569/OneDrive - Clarivate Analytics/Desktop/jnj_final.xlsx")
 
 print("Done!!")
