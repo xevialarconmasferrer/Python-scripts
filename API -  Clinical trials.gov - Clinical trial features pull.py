@@ -132,7 +132,7 @@ def process_nct(n,cont=0):
 
 # Importing Excel file with list of project codes.
 
-data = pd.read_excel(r'C:\Users\U6069569\OneDrive - Clarivate Analytics\Desktop\jnj_end.xlsx')
+data = pd.read_excel(r'end.xlsx')
 AllRecords = data["NCT"].tolist()
 
 # Using ThreadPoolExecutor for parallel processing
@@ -154,6 +154,6 @@ with concurrent.futures.ThreadPoolExecutor(max_workers = 50) as executor:
 df2 = pd.DataFrame(results)
 
 # Exporting dataframe to Excel file
-df2.to_excel("C:/Users/U6069569/OneDrive - Clarivate Analytics/Desktop/jnj_final.xlsx")
+df2.to_excel("final.xlsx")
 
 print("Done!!")
