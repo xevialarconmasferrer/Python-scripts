@@ -37,7 +37,7 @@ def process_nct(n, API_KEY, API_PWD, cont = 0):
     
               
     
-    idUrl = f"*******************query=trialIdentifiers:{n}"
+    idUrl = f"*****query=trialIdentifiers:{n}"
     response, message = getURL(idUrl, API_KEY, API_PWD)
     
     if message == "success":
@@ -49,7 +49,7 @@ def process_nct(n, API_KEY, API_PWD, cont = 0):
             
         #Once we get the TrialID we can go to the html to get the fields from cortellis.
             
-        idURL = f"***********************trials?idList={TrialID}"
+        idURL = f"****trials?idList={TrialID}"
 
         response, message = getURL(idURL, API_KEY, API_PWD)
         if message == "success":
@@ -161,23 +161,20 @@ def process_nct(n, API_KEY, API_PWD, cont = 0):
 
             # Getting the number of biomarkers:
             bm = 0
-            for elem in context.iterfind('Trial/BiomarkerNames/BiomarkerName'):
-                bm += 1
-            result["Biomarkers"] = bm
-            
-            #Getting the number of disease marker:
             d1 = 0
             d2 = 0
-            d3 = 0                 
+            d3 = 0
             for elem in context.iterfind('Trial/BiomarkerNames/BiomarkerName'):
+                bm += 1
                 Tipo = elem.attrib.get('role', '')
                 if "disease marker" in Tipo.lower():
                     d1 += 1
-                elif "Therapeutic effect marker" in Tipo.lower():
-                    d2 += 1 
-                elif "Toxic effect marker" in Tipo.lower():
-                    d3 += 1 
+                elif "therapeutic effect marker" in Tipo.lower():
+                    d2 += 1
+                elif "toxic effect marker" in Tipo.lower():
+                    d3 += 1
 
+            result["Biomarkers"] = bm
             result["Disease marker"] = d1
             result["Therapeutic effect"] = d2
             result["Toxic effect"] = d3
@@ -190,22 +187,23 @@ output_name = input("Enter the output file name (without extension): ")
 data = pd.read_excel(input_path)
 NCT = data["NCT"].tolist()
 
-API_KEY = '****************'
-API_PWD = '******************'
+API_KEY = '****'
+API_PWD = '****'
 
 # Using ThreadPoolExecutor for parallel processing
 
 results = []
+errors = 0
 
-
-with concurrent.futures.ThreadPoolExecutor(max_workers = 10) as executor:
+with concurrent.futures.ThreadPoolExecutor(max_workers = 100) as executor:
     future_to_origins = {executor.submit(process_nct, n, API_KEY, API_PWD): n for n in NCT} 
     for count, future in enumerate(concurrent.futures.as_completed(future_to_origins), 1):
         try:
             result = future.result()
             results.append(result)
-            print(count, "of", len(NCT))
+            print(f"{count} of {len(NCT)} | Errors: {errors}")
         except Exception as e:
+            errors += 1
             print(f"Error processing {future_to_origins[future]}: {e}")
 
 # Creating DataFrame from results
@@ -231,3 +229,4 @@ minutes = int(elapsed // 60)
 seconds = int(elapsed % 60)
 
 print(f"Done!! Process completed in {minutes}m {seconds}s")
+print(f"Finished with {errors} errors out of {len(NCT)} trials")
